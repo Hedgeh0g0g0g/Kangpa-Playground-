@@ -14,7 +14,7 @@ export default function Hero() {
             </div>
 
             {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black/30"></div>
+            <div className="absolute inset-0 bg-linear-to-b from-black/70 to-black/30"></div>
 
             {/* Content */}
             <div className="relative z-10 text-center px-6">
