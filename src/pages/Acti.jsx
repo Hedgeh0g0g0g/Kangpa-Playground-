@@ -98,7 +98,7 @@ const Acti = () => {
             title: "ITCAMP20",
             description: "ค่ายที่จัดขึ้นโดยพี่ๆคณะเทคโนโลยีสารสนเทศ ซึ่งมี 4 สาขา ตัวผมเองได้เข้าสาขาการสร้างเกม (SpadeGame) โดยเฉพาะ และได้เรียนรู้การใช้ Unreal Engine 5 สร้างเกม 3D เพื่อนำไปใช้ประโยชน์ต่อไป โดยมีหนังสือคู่มือที่มหาลัยจัดเตรียมไว้โดยเฉพาะ",
             date: "13-16 เมษายน 2567",
-            image: "src/pages/pic/10.jpg",
+            image: "pic/10.jpg",
             url: "https://example.com/react-workshop-details"
         },
         {
@@ -106,7 +106,7 @@ const Acti = () => {
             title: "OBEC ESPORTS x NextGen Creator",
             description: "ป็นตัวแทนโรงเรียนเข้าร่วมอบรมการปั้นเด็กสายเกมสู้เส้นทาง E-sport ในนามของทีมงาน E-sports ของโรงเรียน ซึ่งมีวิทยากรและ ผู้ประสบความสำเร็จมาเพื่อให้ความรู้ เทคนิคและเคล็ดลับในสายเส้นทาง รวมถึงการทำโปรเจกต์ถ่ายทอดสดสตรีมให้คณะกรรมการ รับชมเพื่อพิจารณาให้คะแนน",
             date: "9-13 กรกฎาคม 2568",
-            image: "src/pages/pic/9.jpg",
+            image: "pic/9.jpg",
             url: "https://example.com/coding-contest-signup"
         },
         {
@@ -114,7 +114,7 @@ const Acti = () => {
             title: "K-Engineering World Tour and Workshop 2025",
             description: "ผมได้มีโอกาสไป Open House ของคณะวิศวกรรมศาสตร์ สาขาวิศวกรรมไฟฟ้าสื่อสารและเครือข่าย วิศวกรรมโทรคมนาคม ซึ่งมีพี่ๆมาอบรมให้ความรู้เรื่องเครือข่ายสัญญาณ คลื่น การใช้เครื่องมือเกี่ยวกับดาวเทียมโดยตรง กฏหมาย และเรื่องน่ารู้ต่างๆ",
             date: "13 สิงหาคม 2568",
-            image: "src/pages/pic/112.webp",
+            image: "pic/112.webp",
             url: "https://example.com/ai-seminar-details"
         },
         {
@@ -122,20 +122,20 @@ const Acti = () => {
             title: "AdaBrain@SUT Global Game Jam 2025",
             description: "รกิจกรรมนี้เป็นการ Marathon ออกแบบเกม 1-5 คน โดยใช้ระยะเวลาทั้งหมด 48 ชั่วโมงซึ่งผมได้เข้าร่วมรายการกับเพื่อนๆทีมงาน E-sport ในฐานะ Coding และ Level Designing ด้วยการใช้ Unreal Engine 5 สร้างเกม 2D ด้วยเงื่อนไขและกติกาต่างๆด้วยเวลาที่กำหนดให้เสร็จทันภายในเวลา",
             date: "24-26 มกราคม 2568",
-            image: "src/pages/pic/ceme.webp",
+            image: "pic/ceme.webp",
             url: "https://example.com/hackathon-info"
         },
     ];
 
     // ข้อมูล Masonry
     const masonryItems = [
-        { id: "1", img: "src/pages/pic/1.jpg", height: 800 },
-        { id: "2", img: "src/pages/pic/2.jpg", height: 600 },
-        { id: "11", img: "src/pages/pic/stack.png", height: 700 },
-        { id: "3", img: "src/pages/pic/3.png", height: 900 },
-        { id: "4", img: "src/pages/pic/4.jpg", height: 700 },
-        { id: "5", img: "src/pages/pic/5.jpg", height: 700 },
-        { id: "6", img: "src/pages/pic/6.jpg", height: 700 },
+        { id: "1", img: "pic/1.jpg", height: 800 },
+        { id: "2", img: "pic/2.jpg", height: 600 },
+        { id: "11", img: "pic/stack.png", height: 700 },
+        { id: "3", img: "pic/3.png", height: 900 },
+        { id: "4", img: "pic/4.jpg", height: 700 },
+        { id: "5", img: "pic/5.jpg", height: 700 },
+        { id: "6", img: "pic/6.jpg", height: 700 },
     ].map(item => ({ ...item, url: baseURL }));
 
 
