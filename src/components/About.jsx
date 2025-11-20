@@ -6,7 +6,7 @@ export default function About() {
 
             {/* 🔥 Background Video */}
             <video
-                src="/public/match-cut.mp4"
+                src="/match-cut.mp4"
                 autoPlay
                 loop
                 muted
