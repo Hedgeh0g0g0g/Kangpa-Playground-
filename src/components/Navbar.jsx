@@ -8,9 +8,9 @@ const App = () => {
             bgColor: "#0D0716",
             textColor: "#fff",
             links: [
-                { label: "ITCAMP20", ariaLabel: "About Company" },
-                { label: "ToBeIT69", ariaLabel: "About Careers" },
-                { label: "CENextGen", ariaLabel: "About Careers" }
+                { label: "ITCAMP20", ariaLabel: "About Company" , to: "/activities"},
+                { label: "ToBeIT69", ariaLabel: "About Careers" , to: "/activities"},
+                { label: "CENextGen", ariaLabel: "About Careers" , to: "/activities"}
             ]
         },
         {
@@ -18,8 +18,8 @@ const App = () => {
             bgColor: "#170D27",
             textColor: "#fff",
             links: [
-                { label: "untitled bloodline game", ariaLabel: "Featured Projects" },
-                { label: "Moodfolio", ariaLabel: "Project Case Studies" }
+                { label: "untitled bloodline game", ariaLabel: "Featured Projects" , to: "/projects" },
+                { label: "Moodfolio", ariaLabel: "Project Case Studies" , to: "/projects" }
             ]
         },
         {

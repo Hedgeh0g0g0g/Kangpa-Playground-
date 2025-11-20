@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
-// use your own icon import if react-icons is not available
+import { Link } from "react-router-dom";
 import { GoArrowUpRight } from 'react-icons/go';
 
 const CardNav = ({
@@ -198,7 +198,7 @@ const CardNav = ({
             className="card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 items-center h-full font-medium cursor-pointer transition-colors duration-300"
             style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
           >
-          แกงป่า</button>
+            แกงป่า</button>
         </div>
 
         <div
@@ -218,15 +218,16 @@ const CardNav = ({
               </div>
               <div className="nav-card-links mt-auto flex flex-col gap-[2px]">
                 {item.links?.map((lnk, i) => (
-                  <a
+                  <Link
                     key={`${lnk.label}-${i}`}
                     className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px] md:text-[16px]"
-                    href={lnk.href}
+                    to={lnk.to || "#"}
                     aria-label={lnk.ariaLabel}
+                    onClick={() => setIsHamburgerOpen(false)} // ปิดเมนูหลังคลิก
                   >
                     <GoArrowUpRight className="nav-card-link-icon shrink-0" aria-hidden="true" />
                     {lnk.label}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </div>
