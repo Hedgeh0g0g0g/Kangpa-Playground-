@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { Link } from "react-router-dom";
 import { GoArrowUpRight } from 'react-icons/go';
+import { useNavigate } from "react-router-dom";
 
 const CardNav = ({
   logo,
@@ -14,6 +15,7 @@ const CardNav = ({
   buttonBgColor,
   buttonTextColor
 }) => {
+  const navigate = useNavigate();
   const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const navRef = useRef(null);
@@ -165,6 +167,7 @@ const CardNav = ({
     <div
       className={`card-nav-container absolute left-1/2 -translate-x-1/2 w-[90%] max-w-[800px] z-[99] top-[1.2em] md:top-[2em] ${className}`}
     >
+
       <nav
         ref={navRef}
         className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-xl shadow-md relative overflow-hidden will-change-[height]`}
@@ -197,6 +200,7 @@ const CardNav = ({
             type="button"
             className="card-nav-cta-button hidden md:inline-flex border-0 rounded-[calc(0.75rem-0.2rem)] px-4 items-center h-full font-medium cursor-pointer transition-colors duration-300"
             style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+            onClick={() => navigate("/")}
           >
             แกงป่า</button>
         </div>
@@ -223,7 +227,7 @@ const CardNav = ({
                     className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-300 hover:opacity-75 text-[15px] md:text-[16px]"
                     to={lnk.to || "#"}
                     aria-label={lnk.ariaLabel}
-                    onClick={() => setIsHamburgerOpen(false)} // ปิดเมนูหลังคลิก
+                    onClick={() => setIsHamburgerOpen(false)}
                   >
                     <GoArrowUpRight className="nav-card-link-icon shrink-0" aria-hidden="true" />
                     {lnk.label}
