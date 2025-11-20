@@ -41,7 +41,6 @@ function Layout() {
                 <About />
                 <Skills />
                 <Contact />
-                <Footer />
               </PageWrapper>
             }
           />
@@ -63,6 +62,7 @@ function Layout() {
           />
         </Routes>
       </AnimatePresence>
+      <Footer />
     </>
   );
 }
