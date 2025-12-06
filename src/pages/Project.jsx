@@ -1,338 +1,218 @@
-import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap"; // Import GSAP
+import React from 'react';
+import { Sparkles, Code, Globe, Gamepad2, User, GraduationCap } from 'lucide-react'; // เพิ่ม GraduationCap icon
 
-const projects = [
-    {
-        title: "Nova Nebula Nightmare",
-        description:
-            "ผลงานเกมไซไฟสุดดาร์ก พัฒนาด้วย Unreal Engine 5 เน้นงานภาพและแสงเงาระดับสูง",
-        image: "/proj/novalogo.png", // รูปภาพเล็ก
-        full_image_bg: "/proj/novabg.png", // รูปภาพพื้นหลัง (ต้องมีรูปนี้ด้วย)
-        tech: "Unreal Engine 5",
-    },
-    {
-        title: "BUBLY",
-        description:
-            "เกมแนวแคชชวลสดใส ตัวละครโดดเด่น ใช้ Unreal Engine 5 ในการสร้างประสบการณ์ที่ลื่นไหล",
-        image: "/proj/bblogo.png",
-        full_image_bg: "/proj/bbbg.png",
-        tech: "Unreal Engine 5",
-    },
-    {
-        title: "Untitled Bloodline Game",
-        description:
-            "เกม Web-based ใช้ HTML, CSS, JS เน้นระบบตระกูล การเติบโตของตัวละคร และระบบเวลาภายในเกม",
-        image: "/proj/ubglogo.png",
-        full_image_bg: "/proj/ubgbg.png",
-        tech: "HTML • CSS • JavaScript",
-    },
-    {
-        title: "Moodfolio",
-        description:
-            "เว็บแอพติดตามอารมณ์ เรียบง่าย เน้น UX ใช้ React.js, Vite, TailwindCSS",
-        image: "/proj/mflogo.png",
-        full_image_bg: "/proj/mfbg.png",
-        tech: "React.js • Vite • TailwindCSS",
-    },
-];
+const AboutMe = () => {
+    // กำหนดสีไฮไลท์หลัก
+    const primaryColor = 'indigo'; // ใช้ indigo เป็นสีหลัก
 
-// 🎨 Styles เดิม (ลบ CSS Transition ออกจากส่วนที่ GSAP คุม)
-const styles = {
-    section: (isEven) => ({
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "40px",
-        color: "white",
-        position: "relative",
-        overflow: "hidden",
-        background: isEven
-            ? "linear-gradient(135deg, #0d0d2b 0%, #1e1e4a 100%)"
-            : "linear-gradient(135deg, #1e1e4a 0%, #2f1d5e 100%)",
-    }),
-    fullScreenBg: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        zIndex: 0,
-        opacity: 0,
-        transform: 'scale(1.1)',
-        display: 'none',
-    },
-    overlay: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        zIndex: 1,
-        opacity: 0,
-        display: 'none',
-    },
-    container: (isReversed) => ({
-        display: "flex",
-        flexDirection: isReversed ? "row-reverse" : "row",
-        alignItems: "center",
-        gap: "80px",
-        maxWidth: "1100px",
-        width: "100%",
-        zIndex: 2,
-    }),
-    img: {
-        width: "500px",
-        height: "300px",
-        objectFit: "cover",
-        borderRadius: "16px",
-        boxShadow: "0 15px 45px rgba(0, 0, 0, 0.4), 0 0 40px rgba(100, 100, 255, 0.1)",
-        cursor: "pointer",
-        // ลบ Transition: "transform 0.3s ease-in-out, opacity 0.5s ease-in-out" ออก
-    },
-    content: {
-        maxWidth: "500px",
-        display: "flex",
-        flexDirection: "column",
-        textAlign: "left",
-        zIndex: 2,
-    },
-    title: {
-        marginBottom: "16px",
-        fontSize: "2.5rem",
-        fontWeight: "800",
-        letterSpacing: "0.5px",
-        color: "#97a3f4",
-    },
-    description: {
-        marginBottom: "20px",
-        fontSize: "1.15rem",
-        lineHeight: "1.6",
-        color: "rgba(255, 255, 255, 0.9)",
-    },
-    techTag: {
-        fontSize: "1rem",
-        fontWeight: "600",
-        padding: "6px 14px",
-        borderRadius: "20px",
-        background: "rgba(151, 163, 244, 0.2)",
-        color: "#97a3f4",
-        display: "inline-block",
-        marginTop: "10px",
-        letterSpacing: "0.8px",
-    },
-};
-
-const Project = () => {
-    const fadeRefs = useRef([]);
-    const [isFullScreenMode, setIsFullScreenMode] = useState(
-        new Array(projects.length).fill(false)
-    );
-
-    const imageRefs = useRef([]);
-    const fullScreenBgRefs = useRef([]);
-    const overlayRefs = useRef([]);
-    const contentRefs = useRef([]);
-    const sectionBgRefs = useRef([]);
-
-    // ... useEffect สำหรับ Intersection Observer คงเดิม ...
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    const element = entry.target;
-                    if (entry.isIntersecting) {
-                        element.classList.add("fade-visible");
-                    } else {
-                        element.classList.remove("fade-visible");
-                    }
-                });
-            },
-            { threshold: 0.2 }
-        );
-
-        fadeRefs.current.forEach((ref) => {
-            if (ref) observer.observe(ref);
-        });
-
-        return () => observer.disconnect();
-    }, []);
-
-    const mergeStyles = (defaultStyle, hoverStyle, isHovered) => ({
-        ...defaultStyle,
-        ...(isHovered ? hoverStyle : {}),
-    });
-
-    const [hoveredIndex, setHoveredIndex] = useState(null);
-
-    const toggleFullScreen = (index) => {
-        const currentProject = projects[index];
-        const isCurrentlyFullScreen = isFullScreenMode[index];
-
-        // 🎯 Easing: ใช้ Expo.easeInOut หรือ Power4.easeInOut เพื่อความ smooth และ professional
-        const tl = gsap.timeline({
-            defaults: { duration: 0.8, ease: "power2.inOut" },
-            onComplete: () => {
-                // อัปเดต State หลังจาก Animation เสร็จสิ้น
-                setIsFullScreenMode((prev) => {
-                    const newState = [...prev];
-                    newState[index] = !isCurrentlyFullScreen;
-                    return newState;
-                });
-            }
-        });
-
-        const defaultGradient = projects[index].isEven
-            ? "linear-gradient(135deg, #0d0d2b 0%, #1e1e4a 100%)"
-            : "linear-gradient(135deg, #1e1e4a 0%, #2f1d5e 100%)";
-
-        // 📌Refs สำหรับองค์ประกอบภายใน Content (เพื่อเปลี่ยนสี)
-        const contentDiv = contentRefs.current[index];
-        const titleElement = contentDiv.querySelector('h2');
-
-        if (!isCurrentlyFullScreen) {
-            // 🚀 ไปยัง Full Screen Mode
-
-            // 1. Fade out/Slide out รูปภาพเล็กและ Gradient พื้นหลัง
-            tl.to(imageRefs.current[index], { opacity: 0, scale: 0.9, x: projects[index].isEven ? -30 : 30, duration: 0.6, ease: "power2.in" })
-                .to(sectionBgRefs.current[index], { background: 'transparent', duration: 0.8 }, "<")
-
-                // 2. Text/Content: เฟดจางลงและเปลี่ยนสีไปเป็นสีขาว (แต่ตำแหน่งนิ่ง)
-                .to(titleElement, { color: 'white', duration: 0.5 }, "<0.2") // เปลี่ยนสี Title ให้ Smooth
-                .to(contentDiv, { opacity: 1, x: 0 }, "<") // ทำให้ Opacity ของ Content จางลงเล็กน้อย (ถ้าต้องการเน้น Background)
-                .to(contentDiv.querySelector('p:last-child'), { opacity: 1, duration: 0.4 }, "<") // เปลี่ยน Opacity ของป้าย Click to close
-
-                // 3. Setup และ Fade in รูปพื้นหลังเต็มจอและ Overlay
-                .set(imageRefs.current[index], { display: 'none' })
-                .set(fullScreenBgRefs.current[index], { backgroundImage: `url('${currentProject.full_image_bg}')`, display: 'block' })
-                .set(overlayRefs.current[index], { display: 'block' }, "<")
-
-                .to(fullScreenBgRefs.current[index], { opacity: 1, scale: 1, duration: 1.0, ease: "power3.out" }, "<0.1") // Zoom/Fade in
-                .to(overlayRefs.current[index], { opacity: 1 }, "<");
-
-        } else {
-            // 🔙 กลับไปยัง Small Image Mode
-
-            // 1. Fade out รูปพื้นหลังเต็มจอและ Overlay
-            tl.to(fullScreenBgRefs.current[index], { opacity: 0, scale: 1.1, duration: 0.8, ease: "power3.in" })
-                .to(overlayRefs.current[index], { opacity: 0 }, "<")
-
-                // 2. Fade in Gradient พื้นหลัง
-                .to(sectionBgRefs.current[index], { background: defaultGradient, duration: 0.8 }, "<0.2")
-
-                // 3. Text/Content: เฟดกลับมาและเปลี่ยนสี Title กลับเป็นสีเดิม
-                .to(titleElement, { color: '#97a3f4', duration: 0.5 }, "<0.2")
-                .to(contentDiv, { opacity: 1, x: 0 }, "<")
-
-                // 4. Setup และ Fade in รูปภาพเล็ก
-                .set(fullScreenBgRefs.current[index], { display: 'none' })
-                .set(overlayRefs.current[index], { display: 'none' })
-                .set(imageRefs.current[index], { display: 'block' }, "<0.2")
-
-                .to(imageRefs.current[index], { opacity: 1, scale: 1, x: 0, duration: 0.6, ease: "back.out(1.7)" }, "<");
+    // ข้อมูลการศึกษา (สามารถแก้ไขได้)
+    const educationHistory = [
+        {
+            level: "ประถมศึกษา",
+            institution: "โรงเรียนอนุบาลสระบุรี",
+            major: "",
+            year: "ก่อนพ.ศ. 2562"
+        },
+        {
+            level: "มัธยมต้น",
+            institution: "โรงเรียนสระบุรีวิทยาคม",
+            major: "แผนการเรียนเทคโนโลยี",
+            year: "พ.ศ. 2562 - 2565"
+        },
+        {
+            level: "มัธยมปลาย ",
+            institution: "โรงเรียนสระบุรีวิทยาคม",
+            major: "แผนการเรียนศิลป์ - คำนวณ",
+            year: "พ.ศ. 2565 - 2568"
         }
+
+
+    ];
+
+    const skillCategories = [
+        {
+            title: "Programming",
+            color: "indigo",
+            icon: Code,
+            items: [
+                { name: "HTML", level: "Expert" },
+                { name: "CSS", level: "Expert" },
+                { name: "JavaScript (JS)", level: "Intermediate" },
+                { name: "Python", level: "Intermediate" },
+                { name: "Lua", level: "Intermediate" },
+                { name: "C", level: "Basic" },
+                { name: "C++", level: "Basic" }
+            ]
+        },
+        {
+            title: "Web Development",
+            color: "green",
+            icon: Globe,
+            items: [
+                { name: "TailwindCSS", level: "Intermediate" },
+                { name: "React.js", level: "Basic" },
+                { name: "Node.js", level: "Basic" }
+            ]
+        },
+        {
+            title: "Game Development",
+            color: "pink",
+            icon: Gamepad2,
+            items: [
+                { name: "Unity", level: "Expert" },
+                { name: "Unreal Engine 5", level: "Expert" },
+                { name: "Construct", level: "Expert" },
+                { name: "RPG Maker VX Ace", level: "Expert" },
+                { name: "RPG Maker MV", level: "Expert" }
+            ]
+        }
+    ];
+    const skillLevelColors = {
+        Expert: "text-yellow-300",
+        Advanced: "text-yellow-300",
+        Intermediate: "text-blue-300",
+        Basic: "text-gray-300",
+        Beginner: "text-gray-500",
+        Hobbyist: "text-pink-300",
     };
 
+
     return (
-        <div style={{ paddingTop: "0px", overflowX: "hidden" }}>
-            {/* ... CSS Style Blocks คงเดิม ... */}
-            <style>
-                {`
-                .fade-item {
-                    opacity: 0;
-                    transform: translateX(-80px);
-                    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-                }
-                /* ... ส่วน CSS ที่เหลือคงเดิม ... */
-                .fade-visible {
-                    opacity: 1 !important;
-                    transform: translateX(0) !important;
-                }
-                @media (max-width: 1024px) {
-                    /* ... Media Query คงเดิม ... */
-                }
-                `}
-            </style>
+        <section className="pt-32 pb-20 px-4 md:px-8 lg:px-16 bg-slate-950 min-h-screen text-gray-200">
+            <div className="max-w-6xl mx-auto">
 
-            {projects.map((p, i) => {
-                const isEven = i % 2 === 0;
-                const containerStyle = styles.container(!isEven);
-                const fadeClass = isEven ? "fade-item" : "fade-item right-to-left";
-                const isCurrentProjectFullScreen = isFullScreenMode[i];
+                {/* === HEADER / INTRO === */}
+                <header className="text-center mb-20">
+                    <p className={`text-xl text-${primaryColor}-400 font-medium mb-2 flex justify-center items-center`}>
+                        <User className="w-5 h-5 mr-2" /> Get to Know Me
+                    </p>
+                    <h1 className="text-6xl font-extrabold text-white tracking-tight mb-4">About Me</h1>
+                    <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+                        ✦ รู้จักผมให้ลึกกว่าที่เคย ✦
+                    </p>
+                </header>
 
-                return (
-                    <section
-                        key={i}
-                        ref={(el) => (sectionBgRefs.current[i] = el)}
-                        style={styles.section(isEven)}
-                    >
-                        {/* Full Screen Background และ Overlay */}
-                        <div
-                            ref={(el) => (fullScreenBgRefs.current[i] = el)}
-                            style={{
-                                ...styles.fullScreenBg,
-                                // GSAP จะจัดการ display และ opacity
-                            }}
-                        />
-                        <div
-                            ref={(el) => (overlayRefs.current[i] = el)}
-                            style={{
-                                ...styles.overlay,
-                                // GSAP จะจัดการ display และ opacity
-                            }}
-                        />
+                {/* --- BIO & CORE INFO SECTION --- */}
+                <section className={`bg-slate-900 p-8 sm:p-10 rounded-3xl shadow-2xl shadow-${primaryColor}-900/20 mb-20 border border-slate-800/50 transform transition duration-500 hover:shadow-${primaryColor}-800/30`}>
+                    <h2 className={`text-3xl font-bold text-${primaryColor}-400 mb-8 flex items-center`}>
+                        <User className="w-6 h-6 mr-3" /> BIO
+                    </h2>
 
-                        {/* FADE เฉพาะ content นี้ */}
-                        <div
-                            ref={(el) => (fadeRefs.current[i] = el)}
-                            className={`${fadeClass} project-container`}
-                            style={containerStyle}
-                            onClick={() => isCurrentProjectFullScreen && toggleFullScreen(i)}
-                        >
-                            {/* รูปภาพเล็ก */}
-                            <img
-                                ref={(el) => (imageRefs.current[i] = el)}
-                                src={p.image}
-                                alt={p.title}
-                                className="project-image"
-                                style={mergeStyles(
-                                    styles.img,
-                                    styles.img[":hover"],
-                                    hoveredIndex === i
-                                )}
-                                onMouseEnter={() => setHoveredIndex(i)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleFullScreen(i);
-                                }}
-                            />
+                    <div className="grid md:grid-cols-2 gap-x-16 gap-y-6 text-lg">
 
-                            {/* ส่วนเนื้อหา */}
-                            <div
-                                ref={(el) => (contentRefs.current[i] = el)}
-                                className="project-content"
-                                style={{ ...styles.content, opacity: isCurrentProjectFullScreen ? 0.8 : 1 }}
-                            >
-                                {/* ต้องมี Ref หรือใช้ querySelector ใน GSAP เพื่อเปลี่ยนสี title */}
-                                <h2 style={styles.title}>{p.title}</h2>
-                                <p style={styles.description}>{p.description}</p>
-                                <span style={styles.techTag}>{p.tech}</span>
-                                {isCurrentProjectFullScreen && (
-                                    <p style={{ marginTop: '20px', fontSize: '0.9rem', opacity: 0.8, cursor: 'pointer' }}>
-                                    </p>
-                                )}
-                            </div>
+                        {/* Column 1: Personal Details */}
+                        <div className="space-y-4">
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>ชื่อ:</span> อาคิรา </p>
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>ชื่อเล่น:</span> แกงป่า</p>
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>วันเกิด:</span> 02 / 11 / 2550</p>
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>อายุ:</span> 18 ปี</p>
                         </div>
-                    </section>
-                );
-            })}
-        </div>
+
+                        {/* Column 2: Additional Info */}
+                        <div className="space-y-4">
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>นามสกุล:</span> รวงผึ้งทอง</p>
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>สัญชาติ:</span> ไทย</p>
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>เชื้อชาติ:</span> ไทย</p>
+                            <p className="border-b border-slate-700 pb-2"><span className={`text-${primaryColor}-300 font-semibold w-24 inline-block`}>ศาสนา:</span> พุทธ</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr className="border-slate-800 my-16" />
+
+                {/* === ADDITIONAL SKILLS LIST === */}
+                <section className="mb-20">
+                    <h2 className="text-4xl font-extrabold text-white text-center mb-16 flex justify-center items-center">
+                        <Sparkles className="w-8 h-8 mr-3 text-yellow-400" /> ทักษะเพิ่มเติม (Skills)
+                    </h2>
+
+                    <div className="grid lg:grid-cols-3 gap-10 text-gray-300">
+
+                        {skillCategories.map((cat, i) => {
+                            const Icon = cat.icon;
+                            return (
+                                <div
+                                    key={i}
+                                    className={`bg-slate-900 p-8 rounded-2xl shadow-xl border-t-4 border-${cat.color}-600
+                    transition duration-300 hover:border-${cat.color}-400 hover:shadow-2xl hover:scale-[1.02]`}
+                                >
+                                    <h3 className={`text-2xl font-bold mb-6 text-${cat.color}-300 flex items-center`}>
+                                        <Icon className="w-5 h-5 mr-3" /> {cat.title}
+                                    </h3>
+
+                                    <ul className="space-y-4">
+                                        {cat.items.map((skill) => (
+                                            <li
+                                                key={skill.name}
+                                                className={`bg-slate-800 p-3 rounded-lg flex justify-between items-center
+                                transform transition duration-200 hover:translate-x-1 hover:bg-slate-700/50
+                                border-l-4 border-${cat.color}-500`}
+                                            >
+                                                {skill.name}
+                                                <span className={`text-sm ${skillLevelColors[skill.level] ?? "text-white/70"}`}>
+                                                    {skill.level}
+                                                </span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            );
+                        })}
+
+                    </div>
+                </section>
+
+
+
+                <hr className="border-slate-800 my-16" />
+
+                {/* === EDUCATION SECTION === */}
+                <section className="mb-20">
+                    <h2 className="text-4xl font-extrabold text-white text-center mb-16 flex justify-center items-center">
+                        <GraduationCap className="w-8 h-8 mr-3 text-blue-400" /> ประวัติการศึกษา (Education)
+                    </h2>
+
+                    <div className="space-y-8">
+                        {educationHistory.map((edu, index) => (
+                            <div key={index} className="flex items-start bg-slate-900 p-6 rounded-2xl border border-slate-800/50 shadow-lg transform transition duration-300 hover:border-blue-600/50">
+
+                                {/* Timeline Dot/Year */}
+                                <div className="flex flex-col items-center mr-6 mt-1">
+                                    <div className="w-4 h-4 rounded-full bg-blue-500 border-2 border-blue-300"></div>
+                                    <div className="flex-1 w-px bg-slate-700 mt-2" style={{ height: index < educationHistory.length - 1 ? '100%' : '0' }}></div>
+                                </div>
+
+                                {/* Content */}
+                                <div className="grow">
+                                    <p className="text-sm font-semibold text-blue-400 mb-1">{edu.year}</p>
+                                    <h3 className="text-2xl font-bold text-white mb-2">{edu.level}</h3>
+                                    <p className="text-lg text-gray-300 font-medium">{edu.institution}</p>
+                                    <p className="text-sm text-slate-400">{edu.major}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+                {/* END OF EDUCATION SECTION */}
+
+
+                <hr className="border-slate-800 my-16" />
+
+                {/* === QUOTE SECTION === */}
+                <section className="text-center mt-20">
+                    <div className="max-w-3xl mx-auto bg-slate-900/50 backdrop-blur-sm p-10 rounded-2xl shadow-2xl border border-slate-800 transform transition duration-500 hover:border-indigo-600/50">
+                        <p className="text-2xl italic text-gray-300 leading-relaxed">
+                            “ทุกปัญหา มีเหตุ มีผล และมีทางออกที่ดีที่สุดเสมอ”
+                        </p>
+                        <p className={`text-lg font-medium text-${primaryColor}-400 mt-6`}>
+                            — แกงป่า
+                        </p>
+                    </div>
+                </section>
+
+            </div>
+        </section>
     );
 };
 
-export default Project;
+export default AboutMe;

@@ -4,22 +4,21 @@ import logo from './repo.svg';
 const App = () => {
     const items = [
         {
-            label: "กิจกรรม",
+            label: "Experience",
             bgColor: "#0D0716",
             textColor: "#fff",
             links: [
-                { label: "ITCAMP20", ariaLabel: "About Company", to: "/activities" },
-                { label: "ToBeIT69", ariaLabel: "About Careers", to: "/activities" },
-                { label: "CENextGen", ariaLabel: "About Careers", to: "/activities" }
+                { label: "Project", ariaLabel: "About Company", to: "/activities" },
+                { label: "Upcoming", ariaLabel: "About Careers", to: "/activities" },
             ]
         },
         {
-            label: "โปรเจกต์",
+            label: "Info",
             bgColor: "#170D27",
             textColor: "#fff",
             links: [
-                { label: "untitled bloodline game", ariaLabel: "Featured Projects", to: "/projects" },
-                { label: "Moodfolio", ariaLabel: "Project Case Studies", to: "/projects" }
+                { label: "About Me", ariaLabel: "Featured Projects", to: "/projects" },
+                { label: "Quotes", ariaLabel: "Project Case Studies", to: "/projects" }
             ]
         },
         {
