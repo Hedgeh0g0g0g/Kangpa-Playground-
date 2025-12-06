@@ -2,8 +2,7 @@ import React from 'react';
 import { Sparkles, Code, Globe, Gamepad2, User, GraduationCap } from 'lucide-react'; // เพิ่ม GraduationCap icon
 
 const AboutMe = () => {
-    // กำหนดสีไฮไลท์หลัก
-    const primaryColor = 'indigo'; // ใช้ indigo เป็นสีหลัก
+    const primaryColor = 'indigo';
 
     // ข้อมูลการศึกษา (สามารถแก้ไขได้)
     const educationHistory = [

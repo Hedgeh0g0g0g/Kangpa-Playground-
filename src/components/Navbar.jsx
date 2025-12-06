@@ -22,15 +22,13 @@ const App = () => {
             ]
         },
         {
-            label: "จักรวาล",
+            label: "Galaxy",
             bgColor: "#271E37",
             textColor: "#fff",
             links: [
-                // *** ส่วนที่ถูกแก้ไข: เพิ่ม 'to' prop พร้อม URL ภายนอก ***
-                { label: "Spotify", ariaLabel: "Email us", to: "https://open.spotify.com/user/31s64aengpceud2xlz2zf5cfllzi" },
-                { label: "Youtube", ariaLabel: "Twitter", to: "https://www.youtube.com/@15-14" },
-                { label: "Roblox", ariaLabel: "LinkedIn", to: "https://www.roblox.com/users/2568930277/profile" }
-                // ******************************************************
+                { label: "Level Designing", ariaLabel: "Email us", to: "/galaxy" },
+                { label: "Spotify", ariaLabel: "Email us", to: "/galaxy" },
+                { label: "<3", ariaLabel: "Email us", to: "/galaxy" },
             ]
         }
     ];

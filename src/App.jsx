@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 
 import Acti from "./pages/Acti";
 import Project from "./pages/Project";
+import Galaxy from "./pages/Galaxy";
 
 // สร้าง component wrapper สำหรับ fade in/out
 const PageWrapper = ({ children }) => {
@@ -58,7 +59,16 @@ function Layout() {
               </PageWrapper>
             }
           />
+          <Route
+            path="/galaxy"
+            element={
+              <PageWrapper>
+                <Galaxy />
+              </PageWrapper>
+            }
+          />
         </Routes>
+        
       </AnimatePresence>
       <Footer />
     </>
